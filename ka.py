@@ -1,6 +1,5 @@
 import torch
-from transformers import DiffusionPipeline
-
+from diffusers import DiffusionPipeline
 # Load the pre-trained models
 model_1 = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-schnell")
 model_2 = DiffusionPipeline.from_pretrained("enhanceaiteam/ImageGroundV0.1")
