@@ -1,5 +1,4 @@
 from safetensors.torch import load_file, save_file
-import torch
 
 def load_model(filepath):
     return load_file(filepath)
@@ -10,7 +9,8 @@ def save_model(model, filepath):
 def mix_models(model1, model2, alpha=0.5):
     # Assuming models are dictionaries of tensors
     mixed_model = {}
-    for key in model1.keys():
+    common_keys = set(model1.keys()).intersection(set(model2.keys()))
+    for key in common_keys:
         mixed_model[key] = alpha * model1[key] + (1 - alpha) * model2[key]
     return mixed_model
 
