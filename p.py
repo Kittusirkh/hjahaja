@@ -3,7 +3,7 @@ from transformers import DiffusionPipeline
 
 # Load the pre-trained models
 model_1 = DiffusionPipeline.from_pretrained("black-forest-labs/FLUX.1-schnell")
-model_2 = DiffusionPipeline.from_pretrained("enhanceaiteam/ImageGround0.1")
+model_2 = DiffusionPipeline.from_pretrained("enhanceaiteam/ImageGroundV0.1")
 
 # Extract the model weights
 model_1_weights = model_1.model.state_dict()
