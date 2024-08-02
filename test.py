@@ -1,10 +1,11 @@
+from safetensors.torch import load_file, save_file
 import torch
 
 def load_model(filepath):
-    return torch.load(filepath)
+    return load_file(filepath)
 
 def save_model(model, filepath):
-    torch.save(model, filepath)
+    save_file(model, filepath)
 
 def mix_models(model1, model2, alpha=0.5):
     # Assuming models are dictionaries of tensors
