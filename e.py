@@ -1,10 +1,10 @@
 import os
-import safetensors
+import safetensors.torch
 import torch
 
 # Load the safetensors file
 file_path = 'sd_xl_turbo_1.0.safetensors'
-data = safetensors.load_file(file_path)
+data = safetensors.torch.load_file(file_path)
 
 # Define the base directory for extracted files
 base_dir = 'extracted_files'
@@ -23,9 +23,8 @@ for key, value in data.items():
         os.makedirs(folder_path)
 
     # Save the tensor to the folder
-    tensor = torch.tensor(value)
     tensor_path = os.path.join(folder_path, f'{key}.pt')
-    torch.save(tensor, tensor_path)
+    torch.save(value, tensor_path)
 
     print(f"Saved tensor '{key}' to '{tensor_path}'")
 
