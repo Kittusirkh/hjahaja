@@ -21,7 +21,7 @@ def extract_tensors(file_path, base_dir):
     return extracted_files
 
 # Define the base directory for extracted files
-base_dir = 'save2'
+base_dir = 'save3'
 
 # Create the base directory if it doesn't exist
 if not os.path.exists(base_dir):
