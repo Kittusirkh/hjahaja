@@ -3,11 +3,11 @@ import safetensors.torch
 import torch
 
 # Load the safetensors file
-file_path = 'sd_xl_turbo_1.0.safetensors'
+file_path = 'flux1-schnell.sft'
 data = safetensors.torch.load_file(file_path)
 
 # Define the base directory for extracted files
-base_dir = 'extracted_files'
+base_dir = 'save2'
 
 # Create the base directory if it doesn't exist
 if not os.path.exists(base_dir):
