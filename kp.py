@@ -16,8 +16,8 @@ def mix_models(model1, model2, alpha=0.5):
     return mixed_model
 
 if __name__ == "__main__":
-    model1_path = "safetensors-merge-supermario/flux1-schnell-fp8.safetensors’"
-    model2_path = "safetensors-merge-supermario/flux1-dev-fp8.safetensors’"
+    model1_path = "safetensors-merge-supermario/flux1-schnell-fp8.safetensors"
+    model2_path = "safetensors-merge-supermario/flux1-dev-fp8.safetensors"
     output_path = "safetensors-merge-supermario/mixed_model.safetensors"
     alpha = 0.5  # Mixing ratio
 
