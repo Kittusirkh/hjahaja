@@ -1,7 +1,6 @@
-import os
+import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
-import torch
 
 def load_model(filepath, device='cpu'):
     model = {}
