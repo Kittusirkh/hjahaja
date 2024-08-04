@@ -12,11 +12,12 @@ def mix_models(model1, model2, alpha=0.5):
     common_keys = set(model1.keys()).intersection(set(model2.keys()))
     for key in common_keys:
         mixed_model[key] = alpha * model1[key] + (1 - alpha) * model2[key]
+        
     return mixed_model
 
 if __name__ == "__main__":
-    model1_path = "safetensors-merge-supermario/sd_xl_turbo_1.0.safetensors"
-    model2_path = "safetensors-merge-supermario/aura_flow_0.2.safetensors"
+    model1_path = "safetensors-merge-supermario/flux1-schnell-fp8.safetensors’"
+    model2_path = "safetensors-merge-supermario/flux1-dev-fp8.safetensors’"
     output_path = "safetensors-merge-supermario/mixed_model.safetensors"
     alpha = 0.5  # Mixing ratio
 
@@ -24,6 +25,7 @@ if __name__ == "__main__":
     model2 = load_model(model2_path)
 
     mixed_model = mix_models(model1, model2, alpha)
+    print(mixed_model)
 
     save_model(mixed_model, output_path)
 
