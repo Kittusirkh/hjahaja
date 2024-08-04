@@ -22,10 +22,10 @@ def mix_models(model1, model2, alpha=0.5):
     return mixed_model
 
 if __name__ == "__main__":
-    model1_path = "safetensors-merge-supermario/flux1-schnell-fp8.safetensors"
-    model2_path = "safetensors-merge-supermario/flux1-dev-fp8.safetensors"
-    output_path = "safetensors-merge-supermario/mixed_model.safetensors"
-    alpha = 0.5  # Mixing ratio
+    model1_path = "safetensors-merge-supermario/model.safetensors"
+    model2_path = "safetensors-merge-supermario/mixed_model.safetensors"
+    output_path = "safetensors-merge-supermario/output.safetensors"
+    alpha = 0.3  # Mixing ratio
 
     model1 = load_model(model1_path)
     model2 = load_model(model2_path)
