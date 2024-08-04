@@ -1,5 +1,5 @@
 import torch
-from safetensors import safe_open, safe_save
+from safetensors import safe_open, safe_save_file
 
 # Function to load a model from safetensors format
 def load_model(path):
@@ -11,7 +11,8 @@ def load_model(path):
 
 # Function to save a model in safetensors format
 def save_model(state_dict, path):
-    safe_save(state_dict, path)
+    # Use safe_save_file instead of safe_save
+    safe_save_file(state_dict, path)
 
 # Load the weights of both models
 model1_path = 'sd_xl_turbo_1.0.safetensors'
