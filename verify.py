@@ -1,18 +1,10 @@
-from safetensors.torch import load_file
+from huggingface_hub import hf_hub_upload
 
-def load_model(filepath):
-    return load_file(filepath)
+# Replace 'pranavajay/Kalpana' with your repo_id
+repo_id = 'pranavajay/Kalpana'
 
-def list_model_keys(filepath):
-    model = load_model(filepath)
-    print(f"Keys in model {filepath}:")
-    for key in model.keys():
-        print(key)
-    print()
+# Path to your file
+file_path = 'model.safetensors'
 
-if __name__ == "__main__":
-    model1_path = "safetensors-merge-supermario/sd_xl_turbo_1.0.safetensors"
-    model2_path = "safetensors-merge-supermario/aura_flow_0.2.safetensors"
-
-    list_model_keys(model1_path)
-    list_model_keys(model2_path)
+# Upload the file
+hf_hub_upload(repo_id=repo_id, path_or_fileobj=file_path, filename='model.safetensors')
