@@ -27,7 +27,7 @@ def check_keys_in_file(filename, log_filename):
         print(f"Error opening or reading '{filename}': {e}")
 
 # Example usage
-filename = "flux1-schnell.sft"
-log_filename = "log.txt"
+filename = "sd_xl_turbo_1.0.safetensors"
+log_filename = "logsdxl.txt"
 
 check_keys_in_file(filename, log_filename)
