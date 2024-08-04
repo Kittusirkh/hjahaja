@@ -1,25 +1,24 @@
 import os
 
-def check_path_folder_and_file(path):
+def create_file_in_folder(path, filename):
     # Check if the folder exists
-    if os.path.isdir(path):
-        print(f"Folder '{path}' exists.")
-        
-        # List all files in the folder
-        files = os.listdir(path)
-        if files:
-            print(f"Files in the folder '{path}':")
-            for file in files:
-                file_path = os.path.join(path, file)
-                if os.path.isfile(file_path):
-                    print(f"  - {file}")
-                else:
-                    print(f"  - {file} (not a file)")
-        else:
-            print(f"No files found in the folder '{path}'.")
+    if not os.path.isdir(path):
+        print(f"Folder '{path}' does not exist. Creating folder.")
+        os.makedirs(path)
+    
+    # Create the file path
+    file_path = os.path.join(path, filename)
+    
+    # Check if the file already exists
+    if not os.path.isfile(file_path):
+        # Create and write to the file
+        with open(file_path, 'w') as file:
+            file.write("This is a new file.")
+        print(f"File '{filename}' created in folder '{path}'.")
     else:
-        print(f"Folder '{path}' does not exist.")
+        print(f"File '{filename}' already exists in folder '{path}'.")
 
 # Example usage
 path = "save2"
-check_path_folder_and_file(path)
+filename = "example.txt"
+create_file_in_folder(path, filename)
