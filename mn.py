@@ -1,11 +1,12 @@
-from safetensors.torch import load_file, save_file
+import numpy as np
 import torch
+import safetensors.torch
 
 def load_model(filepath):
-    return load_file(filepath)
+    return safetensors.torch.load_file(filepath)
 
 def save_model(model, filepath):
-    save_file(model, filepath)
+    safetensors.torch.save_file(model, filepath)
 
 def convert_tensor(tensor, dtype=torch.float32):
     return tensor.to(dtype)
@@ -27,8 +28,9 @@ if __name__ == "__main__":
     output_path = "safetensors-merge-supermario/output.safetensors"
     alpha = 0.3  # Mixing ratio
 
-    model1 = load_model(model1_path)
-    model2 = load_model(model2_path)
+    # Memory-map the tensors to avoid loading entire files into RAM
+    model1 = torch.load(model1_path, map_location=torch.device('cpu'))
+    model2 = torch.load(model2_path, map_location=torch.device('cpu'))
 
     mixed_model = mix_models(model1, model2, alpha)
     print(mixed_model)
