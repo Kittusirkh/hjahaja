@@ -1,4 +1,5 @@
 from safetensors.torch import load_file, save_file
+import torch
 
 def load_model(filepath):
     return load_file(filepath)
@@ -6,12 +7,17 @@ def load_model(filepath):
 def save_model(model, filepath):
     save_file(model, filepath)
 
+def convert_tensor(tensor, dtype=torch.float32):
+    return tensor.to(dtype)
+
 def mix_models(model1, model2, alpha=0.5):
-    # Assuming models are dictionaries of tensors
     mixed_model = {}
     common_keys = set(model1.keys()).intersection(set(model2.keys()))
     for key in common_keys:
-        mixed_model[key] = alpha * model1[key] + (1 - alpha) * model2[key]
+        tensor1 = convert_tensor(model1[key])
+        tensor2 = convert_tensor(model2[key])
+        mixed_tensor = alpha * tensor1 + (1 - alpha) * tensor2
+        mixed_model[key] = mixed_tensor.to(model1[key].dtype)  # Convert back to original dtype if necessary
         
     return mixed_model
 
