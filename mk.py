@@ -26,14 +26,15 @@ def mix_models(model1, model2, alpha=0.5):
     return mixed_model
 
 if __name__ == "__main__":
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model1_path = "kalpana.sft"
     model2_path = "FluxFusionDS_v0_fp16.safetensors"
     output_path = "kaoutput.safetensors"
     alpha = 0.3  # Mixing ratio
 
     # Load models in a memory-efficient manner
-    model1 = load_model(model1_path)
-    model2 = load_model(model2_path)
+    model1 = load_model(model1_path, device=device)
+    model2 = load_model(model2_path, device=device)
 
     # Mix models
     mixed_model = mix_models(model1, model2, alpha)
