@@ -2,9 +2,10 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-def load_model(filepath, device='cpu'):
+def load_model(filepath):
     model = {}
-    with safe_open(filepath, framework="pt", device=device) as f:
+    # Load tensors on the CPU by default
+    with safe_open(filepath, framework="pt") as f:
         for key in f.keys():
             model[key] = f.get_tensor(key)
     return model
@@ -33,8 +34,12 @@ if __name__ == "__main__":
     alpha = 0.3  # Mixing ratio
 
     # Load models in a memory-efficient manner
-    model1 = load_model(model1_path, device=device)
-    model2 = load_model(model2_path, device=device)
+    model1 = load_model(model1_path)
+    model2 = load_model(model2_path)
+
+    # Move models to the desired device (e.g., GPU)
+    model1 = {key: tensor.to(device) for key, tensor in model1.items()}
+    model2 = {key: tensor.to(device) for key, tensor in model2.items()}
 
     # Mix models
     mixed_model = mix_models(model1, model2, alpha)
