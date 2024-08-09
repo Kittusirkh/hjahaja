@@ -26,9 +26,9 @@ def mix_models(model1, model2, alpha=0.5):
     return mixed_model
 
 if __name__ == "__main__":
-    model1_path = "safetensors-merge-supermario/model.safetensors"
-    model2_path = "safetensors-merge-supermario/mixed_model.safetensors"
-    output_path = "safetensors-merge-supermario/output.safetensors"
+    model1_path = "kalpana.sft"
+    model2_path = "FluxFusionDS_v0_fp16.safetensors"
+    output_path = "kaoutput.safetensors"
     alpha = 0.3  # Mixing ratio
 
     # Load models in a memory-efficient manner
