@@ -2,7 +2,7 @@ import torch
 from safetensors import safe_open
 
 # Path to your SafeTensors file
-file_path = "lora.safetensors"
+file_path = "pytorch_lora_weights.safetensors’"
 
 # Open the SafeTensors file using PyTorch
 with safe_open(file_path, framework="torch") as f:
