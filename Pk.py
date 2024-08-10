@@ -1,60 +1,41 @@
 import torch
-import psutil
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-def load_model(filepath):
-    model = {}
-    with safe_open(filepath, framework="pt") as f:
-        for key in f.keys():
-            model[key] = f.get_tensor(key)
-    return model
+def merge_models_in_chunks(model1_path, model2_path, output_path, alpha=0.5):
+    with safe_open(model1_path, framework="pt") as model1, safe_open(model2_path, framework="pt") as model2:
+        common_keys = set(model1.keys()).intersection(set(model2.keys()))
 
-def save_model(model, filepath):
-    save_file(model, filepath)
+        merged_model = {}
+        for key in common_keys:
+            # Load tensors for the current key from both models
+            tensor1 = model1.get_tensor(key)
+            tensor2 = model2.get_tensor(key)
 
-def convert_tensor(tensor, dtype=torch.float32):
-    return tensor.to(dtype)
+            # Ensure tensors are on the same device and dtype for the operation
+            dtype = tensor1.dtype
+            tensor1 = tensor1.to(torch.float32)
+            tensor2 = tensor2.to(torch.float32)
 
-def mix_models(model1, model2, alpha=0.5):
-    mixed_model = {}
-    common_keys = set(model1.keys()).intersection(set(model2.keys()))
-    for key in common_keys:
-        tensor1 = convert_tensor(model1[key])
-        tensor2 = convert_tensor(model2[key])
-        mixed_tensor = alpha * tensor1 + (1 - alpha) * tensor2
-        mixed_model[key] = mixed_tensor.to(model1[key].dtype)  # Convert back to original dtype if necessary
-    return mixed_model
+            # Perform the merging operation
+            mixed_tensor = alpha * tensor1 + (1 - alpha) * tensor2
 
-def print_memory_stats():
-    mem = psutil.virtual_memory()
-    print(f"Total memory: {mem.total / (1024 ** 3)} GB")
-    print(f"Available memory: {mem.available / (1024 ** 3)} GB")
+            # Convert back to the original dtype and store in the merged model dictionary
+            merged_model[key] = mixed_tensor.to(dtype)
+
+            # Save the merged chunk immediately to avoid excessive memory use
+            save_file(merged_model, output_path)
+
+            # Clear the merged_model dictionary to free memory
+            merged_model.clear()
+
+    print(f"Merged model saved to {output_path}")
 
 if __name__ == "__main__":
-    print_memory_stats()
-
-    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model1_path = "kalpana.sft"
     model2_path = "test.safetensors"
     output_path = "kaoutput.safetensors"
     alpha = 0.3  # Mixing ratio
 
-    # Load models in a memory-efficient manner
-    model1 = load_model(model1_path)
-    model2 = load_model(model2_path)
-
-    # Move models to the desired device (e.g., GPU)
-    model1 = {key: tensor.to(device) for key, tensor in model1.items()}
-    model2 = {key: tensor.to(device) for key, tensor in model2.items()}
-
-    # Mix models
-    mixed_model = mix_models(model1, model2, alpha)
-
-    # Print the mixed model for debugging
-    print(mixed_model)
-
-    # Save the mixed model
-    save_model(mixed_model, output_path)
-
-    print(f"Mixed model saved to {output_path}")
+    # Merge models in a memory-efficient manner
+    merge_models_in_chunks(model1_path, model2_path, output_path, alpha)
