@@ -1,10 +1,10 @@
 import torch
+import psutil
 from safetensors import safe_open
 from safetensors.torch import save_file
 
 def load_model(filepath):
     model = {}
-    # Load tensors on the CPU by default
     with safe_open(filepath, framework="pt") as f:
         for key in f.keys():
             model[key] = f.get_tensor(key)
@@ -26,10 +26,17 @@ def mix_models(model1, model2, alpha=0.5):
         mixed_model[key] = mixed_tensor.to(model1[key].dtype)  # Convert back to original dtype if necessary
     return mixed_model
 
+def print_memory_stats():
+    mem = psutil.virtual_memory()
+    print(f"Total memory: {mem.total / (1024 ** 3)} GB")
+    print(f"Available memory: {mem.available / (1024 ** 3)} GB")
+
 if __name__ == "__main__":
+    print_memory_stats()
+
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     model1_path = "kalpana.sft"
-    model2_path = "FluxFusionDS_v0_fp16.safetensors"
+    model2_path = "test.safetensors"
     output_path = "kaoutput.safetensors"
     alpha = 0.3  # Mixing ratio
 
