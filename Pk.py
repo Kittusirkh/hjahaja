@@ -32,10 +32,10 @@ def merge_models_in_chunks(model1_path, model2_path, output_path, alpha=0.5):
     print(f"Merged model saved to {output_path}")
 
 if __name__ == "__main__":
-    model1_path = "kalpana.sft"
-    model2_path = "test.safetensors"
+    model1_path = "modal.safetensors"
+    model2_path = "model.safetensors.1"
     output_path = "kaoutput.safetensors"
-    alpha = 0.3  # Mixing ratio
+    alpha = 0.4  # Mixing ratio
 
     # Merge models in a memory-efficient manner
     merge_models_in_chunks(model1_path, model2_path, output_path, alpha)
