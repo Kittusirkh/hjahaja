@@ -1,5 +1,7 @@
 import torch
-from safetensors import safe_open, save_file
+from safetensors import safe_open
+from safetensors.torch import save_file
+
 
 # File paths
 model1_path = "modal.safetensors"
