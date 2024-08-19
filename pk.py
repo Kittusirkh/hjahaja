@@ -2,13 +2,14 @@ import torch
 from safetensors import safe_open
 from safetensors.torch import save_file
 
-def merge_models_in_chunks(model1_path, model2_path, output_path, alpha=0.5):
+def merge_models_in_chunks(model1_path, model2_path, output_path, alpha=0.4):
     with safe_open(model1_path, framework="pt") as model1, safe_open(model2_path, framework="pt") as model2:
         common_keys = set(model1.keys()).intersection(set(model2.keys()))
 
         merged_model = {}
         for key in common_keys:
             # Load tensors for the current key from both models
+            print(key)
             tensor1 = model1.get_tensor(key)
             tensor2 = model2.get_tensor(key)
 
