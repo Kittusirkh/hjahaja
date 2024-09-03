@@ -4,12 +4,12 @@ from safetensors.torch import save_file
 
 
 # File paths
-model1_path = "modal.safetensors"
-model2_path = "model.safetensors.1"
-output_path = "output.safetensors"
+model1_path = "nsfw.safetensors"
+model2_path = "flux1-dev-fp8.safetensors"
+output_path = "outut.safetensors"
 
 # Mixing ratio
-alpha = 0.4
+alpha = 0.3
 beta = 1 - alpha  # This will be 0.60
 
 print(f"Loading models from:\nModel 1: {model1_path}\nModel 2: {model2_path}")
