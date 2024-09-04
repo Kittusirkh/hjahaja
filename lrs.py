@@ -34,10 +34,10 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
 # File paths
 base_lora_path = "text_encoder_2.safetensors"
 lora_2_path = "AWPortrait-FL-lora.safetensors"
-output_lora_path = "midjourney.safetensors"
+output_lora_path = "midj.safetensors"
 
 # Set the ratio for merging
-merge_ratio = 0.25
+merge_ratio = 0.15
 
 # Perform the merge
 merge_lora_models(base_lora_path, lora_2_path, output_lora_path, merge_ratio)
