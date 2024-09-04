@@ -21,7 +21,11 @@ def merge_lora_models(base_path, lora_paths, output_path):
         for lora in loras:
             for key, tensor in lora.items():
                 if key in merged_lora:
-                    merged_lora[key] += tensor
+                    # Check if the shapes are the same
+                    if merged_lora[key].shape == tensor.shape:
+                        merged_lora[key] += tensor
+                    else:
+                        print(f"Skipping key '{key}' due to shape mismatch: {merged_lora[key].shape} vs {tensor.shape}")
                 else:
                     # If key is not found in the base model, add it
                     merged_lora[key] = tensor
