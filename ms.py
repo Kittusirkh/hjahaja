@@ -3,7 +3,7 @@ from safetensors.torch import load_file, save_file
 
 def merge_lora_models(base_path, lora_paths, output_path):
     try:
-        # Load the base model
+        # Load the new base model
         base_lora = load_file(base_path)
         print("Base LoRA keys:", base_lora.keys())
 
@@ -43,7 +43,7 @@ def merge_lora_models(base_path, lora_paths, output_path):
         print("Error occurred:", e)
 
 # File paths
-base_lora_path = "text_encoder_2.safetensors"
+base_lora_path = "AWPortrait-FL-lora.safetensors"
 lora_paths = [
     "FLUX-anime1.safetensors",
     "mjv6_lora.safetensors",
