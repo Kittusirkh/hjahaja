@@ -32,9 +32,9 @@ def merge_lora_models(lora_path1, lora_path2, output_path):
         print("Error occurred:", e)
 
 # File paths for the two LoRA models to merge
-lora_model_1_path = "FLUX-anime1.safetensors"
-lora_model_2_path = "FLUX-anime2.safetensors"
-output_lora_path = "fluxanime.safetensors"
+lora_model_1_path = "fluxanime.safetensors"
+lora_model_2_path = "lora_pastel_anime_flux.safetensors"
+output_lora_path = "fluxanimes.safetensors"
 
 # Merge the two LoRA models
 merge_lora_models(lora_model_1_path, lora_model_2_path, output_lora_path)
