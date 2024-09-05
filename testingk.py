@@ -33,7 +33,7 @@ def merge_lora_models(lora_path1, lora_path2, output_path):
 
 # File paths for the two LoRA models to merge
 lora_model_1_path = "merged_lora.safetensors"
-lora_model_2_path = "anime_lora.safetensors"
+lora_model_2_path = "mjv6_lora.safetensors"
 output_lora_path = "mergeds_lora.safetensors"
 
 # Merge the two LoRA models
