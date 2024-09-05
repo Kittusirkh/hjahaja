@@ -15,8 +15,19 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
         merged_lora = {}
         for key in base_lora:
             if key in lora_2:
-                # Merge using the ratio
-                merged_lora[key] = base_lora[key] * (1 - ratio) + lora_2[key] * ratio
+                base_tensor = base_lora[key]
+                lora_tensor = lora_2[key]
+                
+                # Print tensor shapes
+                print(f"Key: {key}, Base shape: {base_tensor.shape}, LoRA shape: {lora_tensor.shape}")
+                
+                # Check if shapes are compatible for merging
+                if base_tensor.shape == lora_tensor.shape:
+                    # Merge using the ratio
+                    merged_lora[key] = base_tensor * (1 - ratio) + lora_tensor * ratio
+                else:
+                    print(f"Skipping key '{key}' due to incompatible shapes.")
+                    merged_lora[key] = base_tensor
             else:
                 merged_lora[key] = base_lora[key]
 
