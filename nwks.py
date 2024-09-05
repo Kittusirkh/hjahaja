@@ -2,13 +2,25 @@ import torch
 from safetensors.torch import load_file, save_file
 
 def resize_tensor_to_match(tensor_a, tensor_b):
-    # If tensor_a is larger in a dimension, repeat tensor_b's rows to match tensor_a's size
+    """
+    Resize tensor_b to match tensor_a by repeating elements along the mismatched dimension.
+    """
+    # If tensor_a is larger in dimension 0, repeat tensor_b's rows to match tensor_a's size
     if tensor_a.shape[0] > tensor_b.shape[0]:
         repeats = tensor_a.shape[0] // tensor_b.shape[0]  # Calculate how many times to repeat
         tensor_b = tensor_b.repeat(repeats, 1)
         if tensor_b.shape[0] != tensor_a.shape[0]:
             # If the size is still not perfect, crop the extra rows
             tensor_b = tensor_b[:tensor_a.shape[0], :]
+
+    # If tensor_a is larger in dimension 1, repeat tensor_b's columns to match tensor_a's size
+    if tensor_a.shape[1] > tensor_b.shape[1]:
+        repeats = tensor_a.shape[1] // tensor_b.shape[1]  # Calculate how many times to repeat
+        tensor_b = tensor_b.repeat(1, repeats)
+        if tensor_b.shape[1] != tensor_a.shape[1]:
+            # If the size is still not perfect, crop the extra columns
+            tensor_b = tensor_b[:, :tensor_a.shape[1]]
+    
     return tensor_b
 
 def merge_lora_models(base_path, lora_path, output_path, ratio):
@@ -33,10 +45,7 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
                 
                 # If shapes are incompatible, resize the smaller tensor to match the larger one
                 if base_tensor.shape != lora_tensor.shape:
-                    if base_tensor.shape[0] > lora_tensor.shape[0]:
-                        lora_tensor = resize_tensor_to_match(base_tensor, lora_tensor)
-                    else:
-                        base_tensor = resize_tensor_to_match(lora_tensor, base_tensor)
+                    lora_tensor = resize_tensor_to_match(base_tensor, lora_tensor)
                 
                 # Merge using the ratio
                 merged_lora[key] = base_tensor * (1 - ratio) + lora_tensor * ratio
