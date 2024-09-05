@@ -37,7 +37,7 @@ lora_2_path = "NSFW_master.safetensors"
 output_lora_path = "nsfwlora.safetensors"
 
 # Set the ratio for merging
-merge_ratio = 0.80
+merge_ratio = 0.25
 
 # Perform the merge
 merge_lora_models(base_lora_path, lora_2_path, output_lora_path, merge_ratio)
