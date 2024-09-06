@@ -1,7 +1,7 @@
 import torch
 from safetensors.torch import load_file, save_file
 
-def merge_lora_models(base_path, lora_path, output_path, ratio):
+def merge_lora_models(base_path, lora_path, output_path):
     try:
         # Load the base and LoRA models
         base_lora = load_file(base_path)
@@ -11,7 +11,7 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
         print("Base LoRA keys:", base_lora.keys())
         print("2nd LoRA keys:", lora_2.keys())
 
-        # Merge the models with the given ratio
+        # Merge the models by adding the tensors
         merged_lora = {}
         for key in base_lora:
             if key in lora_2:
@@ -23,8 +23,8 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
                 
                 # Check if shapes are compatible for merging
                 if base_tensor.shape == lora_tensor.shape:
-                    # Merge using the ratio
-                    merged_lora[key] = base_tensor * (1 - ratio) + lora_tensor * ratio
+                    # Add the tensors together
+                    merged_lora[key] = base_tensor + lora_tensor
                 else:
                     print(f"Skipping key '{key}' due to incompatible shapes.")
                     merged_lora[key] = base_tensor
@@ -43,12 +43,9 @@ def merge_lora_models(base_path, lora_path, output_path, ratio):
         print("Error occurred:", e)
 
 # File paths
-base_lora_path = "nsfw_flux_lora_v1.safetensors"
-lora_2_path = "NSFW_master.safetensors"
-output_lora_path = "nsfwlora.safetensors"
-
-# Set the ratio for merging
-merge_ratio = 0.25
+base_lora_path = "pytorch_lora_weights.safetensors"
+lora_2_path = "FLUX-anime2.safetensors"
+output_lora_path = "animelora.safetensors"
 
 # Perform the merge
-merge_lora_models(base_lora_path, lora_2_path, output_lora_path, merge_ratio)
+merge_lora_models(base_lora_path, lora_2_path, output_lora_path)
